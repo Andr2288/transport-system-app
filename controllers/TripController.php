@@ -21,7 +21,19 @@ class TripController extends BaseController {
     public function index() {
         try {
             $trips = $this->tripModel->getTripsWithDetails();
-            $this->renderView('trips/index.php', ['trips' => $trips]);
+
+            // Перевірка на повідомлення
+            $message = isset($_GET['message']) ? $_GET['message'] : null;
+            $messageType = isset($_GET['type']) ? $_GET['type'] : 'error';
+
+            $data = ['trips' => $trips];
+
+            if ($message) {
+                $data['message'] = $message;
+                $data['messageType'] = $messageType;
+            }
+
+            $this->renderView('trips/index.php', $data);
         } catch (Exception $e) {
             $this->renderView('trips/index.php', [
                 'trips' => [],

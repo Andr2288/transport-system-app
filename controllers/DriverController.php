@@ -239,7 +239,7 @@ class DriverController extends BaseController {
                     // Перевірка на помилку foreign key constraint
                     if (strpos($e->getMessage(), 'foreign key constraint') !== false ||
                         strpos($e->getMessage(), 'Cannot delete') !== false) {
-                        $this->redirect('index.php?controller=drivers&message=' . urlencode('Неможливо видалити водія: він призначений на автомобіль або на рейс. Спочатку відкріпіть водія від автомобіля.') . '&type=error');
+                        $this->redirect('index.php?controller=drivers&message=' . urlencode('Неможливо видалити водія: він призначений на автомобіль або на рейс. Спочатку відкріпіть водія від автомобіля або рейсу.') . '&type=error');
                     } else {
                         $this->redirect('index.php?controller=drivers&message=' . urlencode('Помилка видалення: ' . $e->getMessage()) . '&type=error');
                     }

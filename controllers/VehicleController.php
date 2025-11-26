@@ -17,11 +17,14 @@ class VehicleController extends BaseController {
             $message = isset($_GET['message']) ? $_GET['message'] : null;
             $messageType = isset($_GET['type']) ? $_GET['type'] : 'error';
 
-            $this->renderView('vehicles/index.php', [
-                'vehicles' => $vehicles,
-                'message' => $message,
-                'messageType' => $messageType
-            ]);
+            $data = ['vehicles' => $vehicles];
+
+            if ($message) {
+                $data['message'] = $message;
+                $data['messageType'] = $messageType;
+            }
+
+            $this->renderView('vehicles/index.php', $data);
         } catch (Exception $e) {
             $this->renderView('vehicles/index.php', [
                 'vehicles' => [],
@@ -72,8 +75,8 @@ class VehicleController extends BaseController {
 
             // Перевірка року
             $currentYear = date('Y');
-            if ($year < 1990 || $year > $currentYear) {
-                $errors['year'] = "Рік має бути між 1990 та " . ($currentYear);
+            if ($year < 1990 || $year > $currentYear + 1) {
+                $errors['year'] = "Рік має бути між 1990 та " . ($currentYear + 1);
             }
 
             // Перевірка вантажності

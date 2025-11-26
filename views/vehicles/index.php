@@ -32,7 +32,7 @@
 <a href="index.php?controller=vehicles&action=create" class="btn">Додати автомобіль</a>
 
 <?php if (isset($message)): ?>
-    <div class="alert alert-<?php echo htmlspecialchars($messageType); ?>">
+    <div class="alert alert-<?php echo isset($messageType) ? htmlspecialchars($messageType) : 'error'; ?>">
         <?php echo htmlspecialchars($message); ?>
     </div>
 <?php endif; ?>
