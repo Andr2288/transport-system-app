@@ -215,6 +215,7 @@ class TripController extends BaseController {
             if (empty($startTime)) {
                 $errors['start_time'] = 'Вкажіть час початку';
             }
+            // ПРИМІТКА: Для існуючих рейсів НЕ перевіряємо чи час в минулому
 
             if ($endTime && $startTime) {
                 $startDateTime = new DateTime($startTime);
