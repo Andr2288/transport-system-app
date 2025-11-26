@@ -16,9 +16,10 @@
 <body>
 <div class="nav">
     <a href="index.php">Головна</a>
-    <a href="index.php?controller=vehicles">Автомобілі</a>
+    <a href="index.php?controller=vehicles"><strong>Автомобілі</strong></a>
     <a href="index.php?controller=drivers">Водії</a>
     <a href="index.php?controller=trips">Рейси</a>
+    <a href="search.php">Пошук</a>
 </div>
 
 <h1>Управління автомобілями</h1>

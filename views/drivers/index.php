@@ -15,33 +15,34 @@
     </style>
 </head>
 <body>
-    <div class="nav">
-        <a href="index.php">Головна</a>
-        <a href="index.php?controller=vehicles">Автомобілі</a>
-        <a href="index.php?controller=drivers">Водії</a>
-        <a href="index.php?controller=trips">Рейси</a>
-    </div>
+<div class="nav">
+    <a href="index.php">Головна</a>
+    <a href="index.php?controller=vehicles">Автомобілі</a>
+    <a href="index.php?controller=drivers"><strong>Водії</strong></a>
+    <a href="index.php?controller=trips">Рейси</a>
+    <a href="search.php">Пошук</a>
+</div>
 
-    <h1>Управління водіями</h1>
-    
-    <a href="index.php?controller=drivers&action=create" class="btn">Додати водія</a>
-    
-    <?php if (isset($error)): ?>
-        <p style="color: red;">Помилка: <?php echo htmlspecialchars($error); ?></p>
-    <?php endif; ?>
-    
-    <?php if (!empty($drivers)): ?>
-        <table>
-            <tr>
-                <th>Ім'я</th>
-                <th>Посвідчення</th>
-                <th>Телефон</th>
-                <th>Досвід (роки)</th>
-                <th>Категорія</th>
-                <th>Автомобіль</th>
-                <th>Дії</th>
-            </tr>
-            <?php foreach ($drivers as $driver): ?>
+<h1>Управління водіями</h1>
+
+<a href="index.php?controller=drivers&action=create" class="btn">Додати водія</a>
+
+<?php if (isset($error)): ?>
+    <p style="color: red;">Помилка: <?php echo htmlspecialchars($error); ?></p>
+<?php endif; ?>
+
+<?php if (!empty($drivers)): ?>
+    <table>
+        <tr>
+            <th>Ім'я</th>
+            <th>Посвідчення</th>
+            <th>Телефон</th>
+            <th>Досвід (роки)</th>
+            <th>Категорія</th>
+            <th>Автомобіль</th>
+            <th>Дії</th>
+        </tr>
+        <?php foreach ($drivers as $driver): ?>
             <tr>
                 <td><?php echo htmlspecialchars($driver['name']); ?></td>
                 <td><?php echo htmlspecialchars($driver['license_number']); ?></td>
@@ -57,14 +58,14 @@
                 </td>
                 <td>
                     <a href="index.php?controller=drivers&action=edit&id=<?php echo $driver['id']; ?>">Редагувати</a>
-                    <a href="index.php?controller=drivers&action=delete&id=<?php echo $driver['id']; ?>" 
+                    <a href="index.php?controller=drivers&action=delete&id=<?php echo $driver['id']; ?>"
                        onclick="return confirm('Видалити водія?')">Видалити</a>
                 </td>
             </tr>
-            <?php endforeach; ?>
-        </table>
-    <?php else: ?>
-        <p>Немає водіїв для відображення</p>
-    <?php endif; ?>
+        <?php endforeach; ?>
+    </table>
+<?php else: ?>
+    <p>Немає водіїв для відображення</p>
+<?php endif; ?>
 </body>
 </html>

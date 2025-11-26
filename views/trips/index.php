@@ -19,36 +19,37 @@
     </style>
 </head>
 <body>
-    <div class="nav">
-        <a href="index.php">Головна</a>
-        <a href="index.php?controller=vehicles">Автомобілі</a>
-        <a href="index.php?controller=drivers">Водії</a>
-        <a href="index.php?controller=trips">Рейси</a>
-    </div>
+<div class="nav">
+    <a href="index.php">Головна</a>
+    <a href="index.php?controller=vehicles">Автомобілі</a>
+    <a href="index.php?controller=drivers">Водії</a>
+    <a href="index.php?controller=trips"><strong>Рейси</strong></a>
+    <a href="search.php">Пошук</a>
+</div>
 
-    <h1>Управління рейсами</h1>
-    
-    <a href="index.php?controller=trips&action=create" class="btn">Додати рейс</a>
-    <a href="index.php?controller=trips&action=active" class="btn btn-success">Активні рейси</a>
-    
-    <?php if (isset($error)): ?>
-        <p style="color: red;">Помилка: <?php echo htmlspecialchars($error); ?></p>
-    <?php endif; ?>
-    
-    <?php if (!empty($trips)): ?>
-        <table>
-            <tr>
-                <th>Автомобіль</th>
-                <th>Водій</th>
-                <th>Маршрут</th>
-                <th>Відстань</th>
-                <th>Час початку</th>
-                <th>Час закінчення</th>
-                <th>Паливо</th>
-                <th>Статус</th>
-                <th>Дії</th>
-            </tr>
-            <?php foreach ($trips as $trip): ?>
+<h1>Управління рейсами</h1>
+
+<a href="index.php?controller=trips&action=create" class="btn">Додати рейс</a>
+<a href="index.php?controller=trips&action=active" class="btn btn-success">Активні рейси</a>
+
+<?php if (isset($error)): ?>
+    <p style="color: red;">Помилка: <?php echo htmlspecialchars($error); ?></p>
+<?php endif; ?>
+
+<?php if (!empty($trips)): ?>
+    <table>
+        <tr>
+            <th>Автомобіль</th>
+            <th>Водій</th>
+            <th>Маршрут</th>
+            <th>Відстань</th>
+            <th>Час початку</th>
+            <th>Час закінчення</th>
+            <th>Паливо</th>
+            <th>Статус</th>
+            <th>Дії</th>
+        </tr>
+        <?php foreach ($trips as $trip): ?>
             <tr>
                 <td><?php echo htmlspecialchars($trip['license_plate'] . ' (' . $trip['brand'] . ' ' . $trip['model'] . ')'); ?></td>
                 <td><?php echo htmlspecialchars($trip['driver_name']); ?></td>
@@ -64,24 +65,24 @@
                     <span class="status-<?php echo $trip['status']; ?>">
                         <?php
                         $statuses = [
-                            'planned' => 'Запланований',
-                            'active' => 'Активний',
-                            'completed' => 'Завершений'
+                                'planned' => 'Запланований',
+                                'active' => 'Активний',
+                                'completed' => 'Завершений'
                         ];
-                        echo $statuses[$trip['status']] ?? $trip['status'];
+                        echo isset($statuses[$trip['status']]) ? $statuses[$trip['status']] : $trip['status'];
                         ?>
                     </span>
                 </td>
                 <td>
                     <a href="index.php?controller=trips&action=edit&id=<?php echo $trip['id']; ?>">Редагувати</a>
-                    <a href="index.php?controller=trips&action=delete&id=<?php echo $trip['id']; ?>" 
+                    <a href="index.php?controller=trips&action=delete&id=<?php echo $trip['id']; ?>"
                        onclick="return confirm('Видалити рейс?')">Видалити</a>
                 </td>
             </tr>
-            <?php endforeach; ?>
-        </table>
-    <?php else: ?>
-        <p>Немає рейсів для відображення</p>
-    <?php endif; ?>
+        <?php endforeach; ?>
+    </table>
+<?php else: ?>
+    <p>Немає рейсів для відображення</p>
+<?php endif; ?>
 </body>
 </html>

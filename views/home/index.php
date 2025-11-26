@@ -23,7 +23,7 @@
 </div>
 
 <div class="nav">
-    <a href="index.php">Головна</a>
+    <a href="index.php"><strong>Головна</strong></a>
     <a href="index.php?controller=vehicles">Автомобілі</a>
     <a href="index.php?controller=drivers">Водії</a>
     <a href="index.php?controller=trips">Рейси</a>
