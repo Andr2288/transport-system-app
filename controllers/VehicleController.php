@@ -72,8 +72,8 @@ class VehicleController extends BaseController {
 
             // Перевірка року
             $currentYear = date('Y');
-            if ($year < 1990 || $year > $currentYear + 1) {
-                $errors['year'] = "Рік має бути між 1990 та " . ($currentYear + 1);
+            if ($year < 1990 || $year > $currentYear) {
+                $errors['year'] = "Рік має бути між 1990 та " . ($currentYear);
             }
 
             // Перевірка вантажності

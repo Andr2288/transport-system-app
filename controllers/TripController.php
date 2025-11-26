@@ -30,18 +30,6 @@ class TripController extends BaseController {
         }
     }
 
-    public function active() {
-        try {
-            $trips = $this->tripModel->getActiveTrips();
-            $this->renderView('trips/active.php', ['trips' => $trips]);
-        } catch (Exception $e) {
-            $this->renderView('trips/active.php', [
-                'trips' => [],
-                'error' => $e->getMessage()
-            ]);
-        }
-    }
-
     public function create() {
         $errors = [];
 

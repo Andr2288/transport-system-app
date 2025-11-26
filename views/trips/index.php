@@ -9,7 +9,6 @@
         th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
         th { background-color: #f2f2f2; }
         .btn { background: #007bff; color: white; padding: 10px 15px; text-decoration: none; border-radius: 3px; margin: 5px; }
-        .btn-success { background: #28a745; }
         .nav { background: #f4f4f4; padding: 10px; margin: 20px 0; }
         .nav a { margin: 0 15px; text-decoration: none; color: #333; }
         .nav a:hover { color: #007bff; }
@@ -35,7 +34,6 @@
 <h1>Управління рейсами</h1>
 
 <a href="index.php?controller=trips&action=create" class="btn">Додати рейс</a>
-<a href="index.php?controller=trips&action=active" class="btn btn-success">Активні рейси</a>
 
 <?php if (isset($message)): ?>
     <div class="alert alert-<?php echo htmlspecialchars($messageType); ?>">

@@ -61,8 +61,8 @@
             if (!year) {
                 document.getElementById('year_error').textContent = 'Рік обов\'язковий';
                 isValid = false;
-            } else if (year < 1990 || year > currentYear + 1) {
-                document.getElementById('year_error').textContent = `Рік має бути між 1990 та ${currentYear + 1}`;
+            } else if (year < 1990 || year > currentYear) {
+                document.getElementById('year_error').textContent = `Рік має бути між 1990 та ${currentYear}`;
                 isValid = false;
             }
             

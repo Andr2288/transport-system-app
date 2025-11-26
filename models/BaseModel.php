@@ -13,8 +13,8 @@ class BaseModel {
         if ($pdo === null) {
             $host = 'localhost';
             $dbname = 'transport_db';
-            $username = 'admin';
-            $password = '1234567890';
+            $username = 'transport_user';
+            $password = 'password123';
 
             try {
                 $pdo = new PDO(
