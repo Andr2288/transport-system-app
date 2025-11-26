@@ -1,7 +1,7 @@
 <?php
 /**
- * Вбудований PHP веб-сервер для автотранспортного підприємства
- * Використання: php server.php [порт]
+ * Виправлений вбудований PHP веб-сервер для автотранспортного підприємства
+ * Використання: php server_fixed.php [порт]
  * За замовчуванням: http://localhost:8000
  */
 
@@ -29,6 +29,8 @@ class TransportServer {
         );
 
         echo "🚀 Запуск сервера...\n";
+        echo "🌐 Сайт доступний: http://{$this->host}:{$this->port}\n";
+        echo "🔍 Пошук: http://{$this->host}:{$this->port}/search.php\n";
         echo "⏹️  Для зупинки натисніть Ctrl+C\n\n";
 
         // Запуск сервера
@@ -63,9 +65,16 @@ class TransportServer {
             return false; // Дозволити PHP серверу обробити статичний файл
         }
 
-        // Роутинг для API або спеціальних маршрутів
+        // Роутинг для API
         if (preg_match('/^\/api\//', $uri)) {
             self::handleApiRequest($uri, $query);
+            return true;
+        }
+
+        // ВИПРАВЛЕННЯ: Прямі PHP файли
+        if ($uri === '/search.php') {
+            $_GET = array_merge($_GET, $query);
+            require_once 'search.php';
             return true;
         }
 
@@ -90,7 +99,14 @@ class TransportServer {
                 'status' => 'online',
                 'timestamp' => date('Y-m-d H:i:s'),
                 'server' => 'PHP Built-in Server',
-                'version' => PHP_VERSION
+                'version' => PHP_VERSION,
+                'available_pages' => [
+                    'home' => '/',
+                    'search' => '/search.php',
+                    'vehicles' => '/?controller=vehicles',
+                    'drivers' => '/?controller=drivers',
+                    'trips' => '/?controller=trips'
+                ]
             ];
             echo json_encode($stats, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
             return;
@@ -119,6 +135,6 @@ if (php_sapi_name() === 'cli') {
     $server->start();
 } else {
     echo "Цей скрипт призначений для запуску з командного рядка.\n";
-    echo "Використання: php server.php [порт]\n";
+    echo "Використання: php server_fixed.php [порт]\n";
 }
 ?>
