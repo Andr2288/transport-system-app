@@ -12,7 +12,16 @@ class VehicleController extends BaseController {
     public function index() {
         try {
             $vehicles = $this->vehicleModel->getVehiclesWithDrivers();
-            $this->renderView('vehicles/index.php', ['vehicles' => $vehicles]);
+
+            // Перевірка на повідомлення після видалення
+            $message = isset($_GET['message']) ? $_GET['message'] : null;
+            $messageType = isset($_GET['type']) ? $_GET['type'] : 'error';
+
+            $this->renderView('vehicles/index.php', [
+                'vehicles' => $vehicles,
+                'message' => $message,
+                'messageType' => $messageType
+            ]);
         } catch (Exception $e) {
             $this->renderView('vehicles/index.php', [
                 'vehicles' => [],
@@ -279,9 +288,20 @@ class VehicleController extends BaseController {
                         if ($vehicle && $vehicle['photo'] && file_exists($vehicle['photo'])) {
                             unlink($vehicle['photo']);
                         }
+
+                        // Успішне видалення
+                        $this->redirect('index.php?controller=vehicles&message=' . urlencode('Автомобіль успішно видалено') . '&type=success');
+                    }
+                } catch (PDOException $e) {
+                    // Перевірка на помилку foreign key constraint
+                    if (strpos($e->getMessage(), 'foreign key constraint') !== false ||
+                        strpos($e->getMessage(), 'Cannot delete') !== false) {
+                        $this->redirect('index.php?controller=vehicles&message=' . urlencode('Неможливо видалити автомобіль: він використовується в рейсах. Спочатку видаліть всі рейси з цим автомобілем.') . '&type=error');
+                    } else {
+                        $this->redirect('index.php?controller=vehicles&message=' . urlencode('Помилка видалення: ' . $e->getMessage()) . '&type=error');
                     }
                 } catch (Exception $e) {
-                    // Помилки ігноруємо для простоти
+                    $this->redirect('index.php?controller=vehicles&message=' . urlencode('Помилка: ' . $e->getMessage()) . '&type=error');
                 }
             }
         }

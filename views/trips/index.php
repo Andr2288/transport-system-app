@@ -16,6 +16,11 @@
         .status-active { color: #28a745; font-weight: bold; }
         .status-completed { color: #6c757d; }
         .status-planned { color: #ffc107; }
+        .delete-btn { background: none; border: none; color: #dc3545; cursor: pointer; text-decoration: underline; padding: 0; font-size: 14px; }
+        .delete-btn:hover { color: #a71d2a; }
+        .alert { padding: 15px; margin: 20px 0; border-radius: 4px; }
+        .alert-error { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .alert-success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
     </style>
 </head>
 <body>
@@ -32,8 +37,16 @@
 <a href="index.php?controller=trips&action=create" class="btn">Додати рейс</a>
 <a href="index.php?controller=trips&action=active" class="btn btn-success">Активні рейси</a>
 
+<?php if (isset($message)): ?>
+    <div class="alert alert-<?php echo htmlspecialchars($messageType); ?>">
+        <?php echo htmlspecialchars($message); ?>
+    </div>
+<?php endif; ?>
+
 <?php if (isset($error)): ?>
-    <p style="color: red;">Помилка: <?php echo htmlspecialchars($error); ?></p>
+    <div class="alert alert-error">
+        Помилка: <?php echo htmlspecialchars($error); ?>
+    </div>
 <?php endif; ?>
 
 <?php if (!empty($trips)): ?>
@@ -75,8 +88,14 @@
                 </td>
                 <td>
                     <a href="index.php?controller=trips&action=edit&id=<?php echo $trip['id']; ?>">Редагувати</a>
-                    <a href="index.php?controller=trips&action=delete&id=<?php echo $trip['id']; ?>"
-                       onclick="return confirm('Видалити рейс?')">Видалити</a>
+                    |
+                    <form method="POST" action="index.php?controller=trips&action=delete" style="display: inline;">
+                        <input type="hidden" name="id" value="<?php echo $trip['id']; ?>">
+                        <input type="hidden" name="confirm_delete" value="yes">
+                        <button type="submit" class="delete-btn" onclick="return confirm('Видалити рейс?')">
+                            Видалити
+                        </button>
+                    </form>
                 </td>
             </tr>
         <?php endforeach; ?>

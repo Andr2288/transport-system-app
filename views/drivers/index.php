@@ -12,6 +12,11 @@
         .nav { background: #f4f4f4; padding: 10px; margin: 20px 0; }
         .nav a { margin: 0 15px; text-decoration: none; color: #333; }
         .nav a:hover { color: #007bff; }
+        .delete-btn { background: none; border: none; color: #dc3545; cursor: pointer; text-decoration: underline; padding: 0; font-size: 14px; }
+        .delete-btn:hover { color: #a71d2a; }
+        .alert { padding: 15px; margin: 20px 0; border-radius: 4px; }
+        .alert-error { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .alert-success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
     </style>
 </head>
 <body>
@@ -27,8 +32,16 @@
 
 <a href="index.php?controller=drivers&action=create" class="btn">Додати водія</a>
 
+<?php if (isset($message)): ?>
+    <div class="alert alert-<?php echo htmlspecialchars($messageType); ?>">
+        <?php echo htmlspecialchars($message); ?>
+    </div>
+<?php endif; ?>
+
 <?php if (isset($error)): ?>
-    <p style="color: red;">Помилка: <?php echo htmlspecialchars($error); ?></p>
+    <div class="alert alert-error">
+        Помилка: <?php echo htmlspecialchars($error); ?>
+    </div>
 <?php endif; ?>
 
 <?php if (!empty($drivers)): ?>
@@ -50,7 +63,7 @@
                 <td><?php echo $driver['experience_years']; ?></td>
                 <td><?php echo htmlspecialchars($driver['category']); ?></td>
                 <td>
-                    <?php if ($driver['license_plate']): ?>
+                    <?php if (isset($driver['license_plate']) && $driver['license_plate']): ?>
                         <?php echo htmlspecialchars($driver['license_plate'] . ' (' . $driver['brand'] . ' ' . $driver['model'] . ')'); ?>
                     <?php else: ?>
                         Не призначений
@@ -58,8 +71,14 @@
                 </td>
                 <td>
                     <a href="index.php?controller=drivers&action=edit&id=<?php echo $driver['id']; ?>">Редагувати</a>
-                    <a href="index.php?controller=drivers&action=delete&id=<?php echo $driver['id']; ?>"
-                       onclick="return confirm('Видалити водія?')">Видалити</a>
+                    |
+                    <form method="POST" action="index.php?controller=drivers&action=delete" style="display: inline;">
+                        <input type="hidden" name="id" value="<?php echo $driver['id']; ?>">
+                        <input type="hidden" name="confirm_delete" value="yes">
+                        <button type="submit" class="delete-btn" onclick="return confirm('Видалити водія <?php echo htmlspecialchars($driver['name']); ?>?')">
+                            Видалити
+                        </button>
+                    </form>
                 </td>
             </tr>
         <?php endforeach; ?>
