@@ -17,37 +17,41 @@
     </style>
 </head>
 <body>
-    <div class="header">
-        <h1>Автотранспортне підприємство</h1>
-        <p>Система управління транспортом</p>
-    </div>
+<div class="header">
+    <h1>Автотранспортне підприємство</h1>
+    <p>Система управління транспортом</p>
+</div>
 
-    <div class="nav">
-        <a href="index.php">Головна</a>
-        <a href="index.php?controller=vehicles">Автомобілі</a>
-        <a href="index.php?controller=drivers">Водії</a>
-        <a href="index.php?controller=trips">Рейси</a>
-        <a href="search.php">Пошук</a>
-    </div>
+<div class="nav">
+    <a href="index.php">Головна</a>
+    <a href="index.php?controller=vehicles">Автомобілі</a>
+    <a href="index.php?controller=drivers">Водії</a>
+    <a href="index.php?controller=trips">Рейси</a>
+    <a href="search.php">Пошук</a>
+</div>
 
-    <div class="counter">
-        <strong>Кількість відвідувань: <?php echo $visits; ?></strong>
-    </div>
+<div class="counter">
+    <strong>Кількість відвідувань: <?php echo isset($visits) ? $visits : 0; ?></strong>
+</div>
 
-    <h2>Звіт транспортного підприємства</h2>
-    
-    <?php if (!empty($reports)): ?>
-        <table>
-            <tr>
-                <th>Номер</th>
-                <th>Марка</th>
-                <th>Модель</th>
-                <th>Водій</th>
-                <th>Маршрут</th>
-                <th>Час початку</th>
-                <th>Статус</th>
-            </tr>
-            <?php foreach ($reports as $report): ?>
+<h2>Звіт транспортного підприємства</h2>
+
+<?php if (isset($error)): ?>
+    <p style="color: red;">Помилка: <?php echo htmlspecialchars($error); ?></p>
+<?php endif; ?>
+
+<?php if (!empty($reports)): ?>
+    <table>
+        <tr>
+            <th>Номер</th>
+            <th>Марка</th>
+            <th>Модель</th>
+            <th>Водій</th>
+            <th>Маршрут</th>
+            <th>Час початку</th>
+            <th>Статус</th>
+        </tr>
+        <?php foreach ($reports as $report): ?>
             <tr>
                 <td><?php echo htmlspecialchars($report['license_plate']); ?></td>
                 <td><?php echo htmlspecialchars($report['brand']); ?></td>
@@ -57,10 +61,10 @@
                 <td><?php echo htmlspecialchars($report['start_time']); ?></td>
                 <td><?php echo htmlspecialchars($report['trip_status']); ?></td>
             </tr>
-            <?php endforeach; ?>
-        </table>
-    <?php else: ?>
-        <p>Немає даних для відображення</p>
-    <?php endif; ?>
+        <?php endforeach; ?>
+    </table>
+<?php else: ?>
+    <p>Немає даних для відображення</p>
+<?php endif; ?>
 </body>
 </html>

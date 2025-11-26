@@ -4,8 +4,8 @@ require_once 'config/database.php';
 require_once 'controllers/HomeController.php';
 
 // Простий роутер
-$controller = $_GET['controller'] ?? 'home';
-$action = $_GET['action'] ?? 'index';
+$controller = isset($_GET['controller']) ? $_GET['controller'] : 'home';
+$action = isset($_GET['action']) ? $_GET['action'] : 'index';
 
 switch ($controller) {
     case 'home':

@@ -4,16 +4,23 @@ require_once 'models/VehicleModel.php';
 
 class VehicleController extends BaseController {
     private $vehicleModel;
-    
+
     public function __construct() {
         $this->vehicleModel = new VehicleModel();
     }
-    
+
     public function index() {
-        $vehicles = $this->vehicleModel->getVehiclesWithDrivers();
-        $this->renderView('vehicles/index.php', ['vehicles' => $vehicles]);
+        try {
+            $vehicles = $this->vehicleModel->getVehiclesWithDrivers();
+            $this->renderView('vehicles/index.php', ['vehicles' => $vehicles]);
+        } catch (Exception $e) {
+            $this->renderView('vehicles/index.php', [
+                'vehicles' => [],
+                'error' => $e->getMessage()
+            ]);
+        }
     }
-    
+
     public function create() {
         if ($_POST) {
             $data = [
@@ -23,12 +30,12 @@ class VehicleController extends BaseController {
                 'year' => (int)$_POST['year'],
                 'capacity' => (float)$_POST['capacity']
             ];
-            
+
             if ($this->vehicleModel->create($data)) {
                 $this->redirect('index.php?controller=vehicles');
             }
         }
-        
+
         $this->renderView('vehicles/create.php');
     }
 }

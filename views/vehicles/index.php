@@ -14,17 +14,22 @@
     </style>
 </head>
 <body>
-    <div class="nav">
-        <a href="index.php">Головна</a>
-        <a href="index.php?controller=vehicles">Автомобілі</a>
-        <a href="index.php?controller=drivers">Водії</a>
-        <a href="index.php?controller=trips">Рейси</a>
-    </div>
+<div class="nav">
+    <a href="index.php">Головна</a>
+    <a href="index.php?controller=vehicles">Автомобілі</a>
+    <a href="index.php?controller=drivers">Водії</a>
+    <a href="index.php?controller=trips">Рейси</a>
+</div>
 
-    <h1>Управління автомобілями</h1>
-    
-    <a href="index.php?controller=vehicles&action=create" class="btn">Додати автомобіль</a>
-    
+<h1>Управління автомобілями</h1>
+
+<a href="index.php?controller=vehicles&action=create" class="btn">Додати автомобіль</a>
+
+<?php if (isset($error)): ?>
+    <p style="color: red;">Помилка: <?php echo htmlspecialchars($error); ?></p>
+<?php endif; ?>
+
+<?php if (!empty($vehicles)): ?>
     <table>
         <tr>
             <th>Номер</th>
@@ -37,21 +42,25 @@
             <th>Дії</th>
         </tr>
         <?php foreach ($vehicles as $vehicle): ?>
-        <tr>
-            <td><?php echo htmlspecialchars($vehicle['license_plate']); ?></td>
-            <td><?php echo htmlspecialchars($vehicle['brand']); ?></td>
-            <td><?php echo htmlspecialchars($vehicle['model']); ?></td>
-            <td><?php echo $vehicle['year']; ?></td>
-            <td><?php echo $vehicle['capacity']; ?> т</td>
-            <td><?php echo htmlspecialchars($vehicle['driver_name'] ?? 'Не призначений'); ?></td>
-            <td><?php echo htmlspecialchars($vehicle['status']); ?></td>
-            <td>
-                <a href="index.php?controller=vehicles&action=edit&id=<?php echo $vehicle['id']; ?>">Редагувати</a>
-                <a href="index.php?controller=vehicles&action=delete&id=<?php echo $vehicle['id']; ?>" 
-                   onclick="return confirm('Видалити автомобіль?')">Видалити</a>
-            </td>
-        </tr>
+            <tr>
+                <td><?php echo htmlspecialchars($vehicle['license_plate']); ?></td>
+                <td><?php echo htmlspecialchars($vehicle['brand']); ?></td>
+                <td><?php echo htmlspecialchars($vehicle['model']); ?></td>
+                <td><?php echo $vehicle['year']; ?></td>
+                <td><?php echo $vehicle['capacity']; ?> т</td>
+                <td><?php echo htmlspecialchars(isset($vehicle['driver_name']) ? $vehicle['driver_name'] : 'Не призначений'); ?></td>
+                <td><?php echo htmlspecialchars($vehicle['status']); ?></td>
+                <td>
+                    <a href="index.php?controller=vehicles&action=edit&id=<?php echo $vehicle['id']; ?>">Редагувати</a>
+                    <a href="index.php?controller=vehicles&action=delete&id=<?php echo $vehicle['id']; ?>"
+                       onclick="return confirm('Видалити автомобіль?')">Видалити</a>
+                </td>
+            </tr>
         <?php endforeach; ?>
     </table>
+<?php else: ?>
+    <p>Немає автомобілів для відображення</p>
+<?php endif; ?>
+</table>
 </body>
 </html>
